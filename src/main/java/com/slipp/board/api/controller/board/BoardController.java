@@ -2,6 +2,7 @@ package com.slipp.board.api.controller.board;
 
 import com.slipp.board.api.service.board.BoardService;
 import com.slipp.board.model.Post;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +14,12 @@ import java.util.List;
 @RequestMapping("/board")
 public class BoardController {
 
+    private final BoardService boardService;
+
     @Autowired
-    private BoardService boardService;
+    public BoardController(BoardService boardService) {
+        this.boardService = boardService;
+    }
 
     @RequestMapping(value = "/posts", method = RequestMethod.GET)
     public ResponseEntity<List<Post>> getPosts() {
