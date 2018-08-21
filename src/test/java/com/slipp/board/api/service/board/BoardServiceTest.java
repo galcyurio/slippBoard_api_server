@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
@@ -39,12 +40,12 @@ public final class BoardServiceTest {
         expected.setContent("test content");
 
         boardService.create(expected);
-        final Post actual = boardService.getPosts().stream()
+        final Optional<Post> actual = boardService.getPosts().stream()
             .filter(post -> post.getId() == expected.getId())
-            .findFirst().get();
+            .findFirst();
 
-        assertThat(actual).isNotNull();
-        assertThat(expected).isEqualTo(actual);
+        assertThat(actual.isPresent()).isTrue();
+        assertThat(expected).isEqualTo(actual.orElseThrow(RuntimeException::new));
     }
 
     @Test
@@ -54,11 +55,11 @@ public final class BoardServiceTest {
         expected.setContent("test content");
 
         boardService.create(expected);
-        final Post actual = boardService.getPosts().stream()
-            .filter(post -> post.getId() == expected.getId())
-            .findFirst().get();
         boardService.remove(expected.getId());
+        final Optional<Post> actual = boardService.getPosts().stream()
+            .filter(post -> post.getId() == expected.getId())
+            .findFirst();
 
-        assertThat(actual).isNull();
+        assertThat(actual.isPresent()).isFalse();
     }
 }
