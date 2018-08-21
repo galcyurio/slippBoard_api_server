@@ -10,7 +10,7 @@ import java.util.*;
 @Service
 public class BoardService implements InitializingBean {
 
-    private Map<Long, Post> posts = Collections.emptyMap();
+    private Map<Long, Post> posts = new HashMap<>();
 
     private void loadPosts() {
 
