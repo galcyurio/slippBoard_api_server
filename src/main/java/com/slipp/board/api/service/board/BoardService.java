@@ -46,14 +46,12 @@ public class BoardService implements InitializingBean {
     }
 
     public void create(Post post) {
-
-        Post lastPost = this.posts.get(this.posts.size() * 1L);
-        long id = lastPost.getId() + 1;
+        Optional<Post> lastPost = Optional.ofNullable(this.posts.get(this.posts.size() * 1L));
+        long id = lastPost.isPresent() ? lastPost.get().getId() + 1 : 0;
         post.setId(id);
         post.setCreateDtm(DateTime.now());
 
         this.posts.put(id, post);
-
     }
 
     public void modify(Post post) {
