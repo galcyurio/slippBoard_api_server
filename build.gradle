@@ -1,10 +1,65 @@
-group 'net.slipp'
-version '0.0.1-SNAPSHOT'
+buildscript {
+    ext {
+        versions = [
+                kotlin    : '1.2.51',
+                springBoot: '2.0.4.RELEASE'
+        ]
 
-repositories {
-    mavenCentral()
+        deps = [
+                spring: [
+                        jpa         : 'org.springframework.boot:spring-boot-starter-data-jpa',
+                        security    : 'org.springframework.boot:spring-boot-starter-security',
+                        web         : 'org.springframework.boot:spring-boot-starter-web',
+
+                        devtools    : 'org.springframework.boot:spring-boot-devtools',
+                        test        : 'org.springframework.boot:spring-boot-starter-test',
+                        securityTest: 'org.springframework.security:spring-security-test',
+                ],
+                kotlin: [
+                        stdlib : 'org.jetbrains.kotlin:kotlin-stdlib-jdk8',
+                        reflect: 'org.jetbrains.kotlin:kotlin-reflect',
+                ],
+                h2db  : 'com.h2database:h2'
+        ]
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$versions.springBoot"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$versions.kotlin"
+    }
 }
 
-dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+subprojects {
+    group 'net.slipp'
+    version '0.0.1-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+configure(subprojects.find { it.name.contains('server') }) {
+    apply plugin: 'kotlin'
+    apply plugin: 'kotlin-spring'
+    apply plugin: 'eclipse'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceCompatibility = 1.8
+
+    compileKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "1.8"
+        }
+    }
+    compileTestKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "1.8"
+        }
+    }
 }
