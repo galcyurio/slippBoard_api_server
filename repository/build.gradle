@@ -1,0 +1,6 @@
+dependencies {
+    compile deps.kotlin.stdlib
+    compile deps.spring.jpa
+
+    testCompile deps.spring.test
+}

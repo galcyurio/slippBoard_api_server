@@ -1,3 +1,4 @@
 rootProject.name = 'slipp-board-server'
 
 include 'server'
+include 'repository'
