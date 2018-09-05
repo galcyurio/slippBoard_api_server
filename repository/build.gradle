@@ -1,6 +1,6 @@
 dependencies {
     compile deps.kotlin.stdlib
-    compile deps.spring.jpa
+    compile deps.spring.jpa, deps.spring.security
 
     testCompile deps.spring.test
 }
