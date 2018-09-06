@@ -18,8 +18,9 @@ buildscript {
                 kotlin: [
                         stdlib : 'org.jetbrains.kotlin:kotlin-stdlib-jdk8',
                         reflect: 'org.jetbrains.kotlin:kotlin-reflect',
+                        jackson: 'com.fasterxml.jackson.module:jackson-module-kotlin',
                 ],
-                h2db  : 'com.h2database:h2'
+                h2db  : 'com.h2database:h2',
         ]
     }
     repositories {
