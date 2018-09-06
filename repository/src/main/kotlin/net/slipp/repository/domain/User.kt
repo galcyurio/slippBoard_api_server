@@ -13,11 +13,11 @@ data class User(
     private val password: String,
 
     @ElementCollection
-    private val authorities: Collection<GrantedAuthority>,
-
+    private val authorities: Collection<GrantedAuthority>
+) : UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     val id: Long = 0
-) : UserDetails {
+
     override fun getUsername(): String = username
     override fun getPassword(): String = password
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> = authorities.toMutableSet()
