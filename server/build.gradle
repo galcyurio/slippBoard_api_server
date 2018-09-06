@@ -1,4 +1,6 @@
 dependencies {
+    compile project(':repository')
+
     compile deps.spring.jpa, deps.spring.security, deps.spring.web
     compile deps.kotlin.stdlib, deps.kotlin.reflect
     runtime deps.spring.devtools, deps.h2db
