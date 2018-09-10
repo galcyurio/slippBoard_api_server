@@ -15,7 +15,7 @@ data class User(
     @ElementCollection
     private val authorities: Collection<GrantedAuthority>
 ) : UserDetails {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0
 
     override fun getUsername(): String = username
