@@ -1,0 +1,18 @@
+GET http://localhost:8080/public
+Accept: application/json
+
+###
+GET http://localhost:8080/protected
+Accept: application/json
+Authorization: Basic dXNlcjpwYXNzd29yZA==
+
+###
+GET http://localhost:8080/protected
+Accept: application/json
+Cookie: JSESSIONID=572DFE9EE32FD4CF64EC8478BAC5817F; Path=/; HttpOnly
+
+###
+GET http://localhost:8080/protected
+Accept: application/json
+
+###
