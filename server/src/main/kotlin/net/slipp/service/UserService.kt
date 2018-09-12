@@ -1,5 +1,6 @@
 package net.slipp.service
 
+import net.slipp.misc.AlreadyExistsEmailException
 import net.slipp.repository.UserRepository
 import net.slipp.repository.domain.User
 import org.springframework.security.core.userdetails.UserDetails
@@ -22,7 +23,7 @@ class UserService(
         if (!userRepository.findByUsername(user.username).isPresent) {
             userRepository.save(user)
         } else {
-            throw RuntimeException("존재하는 email 입니다.")
+            throw AlreadyExistsEmailException("존재하는 email 입니다.")
         }
     }
 }
