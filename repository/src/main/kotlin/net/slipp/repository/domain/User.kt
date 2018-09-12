@@ -1,6 +1,7 @@
 package net.slipp.repository.domain
 
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import javax.persistence.*
 
@@ -13,7 +14,7 @@ data class User(
     private val password: String,
 
     @ElementCollection
-    private val authorities: Collection<GrantedAuthority>
+    private val authorities: Collection<SimpleGrantedAuthority>
 ) : UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0
