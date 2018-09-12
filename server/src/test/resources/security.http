@@ -2,6 +2,19 @@ GET http://localhost:8080/public
 Accept: application/json
 
 ###
+POST http://localhost:8080/signOn
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "password",
+  "authorities": [
+    "ROLE_USER"
+  ]
+}
+
+###
+
 GET http://localhost:8080/protected
 Accept: application/json
 Authorization: Basic dXNlcjpwYXNzd29yZA==
@@ -9,7 +22,7 @@ Authorization: Basic dXNlcjpwYXNzd29yZA==
 ###
 GET http://localhost:8080/protected
 Accept: application/json
-Cookie: JSESSIONID=572DFE9EE32FD4CF64EC8478BAC5817F; Path=/; HttpOnly
+Cookie: JSESSIONID=572D1C57A748BD67B7012C72FEB632FB; Path=/; HttpOnly
 
 ###
 GET http://localhost:8080/protected
