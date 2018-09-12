@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.context.request.RequestContextHolder
 
 /**
  * @author galcyurio
@@ -29,7 +30,13 @@ class UserController(
 
     @PostMapping("/signOn")
     fun signOn(@RequestBody user: User): ResponseEntity<User> {
-        userService.signOn(user)
-        return ResponseEntity(user, HttpStatus.CREATED)
+        val newUser = userService.signOn(user)
+        return ResponseEntity(newUser, HttpStatus.CREATED)
+    }
+
+    @GetMapping("/signIn")
+    fun signIn(): ResponseEntity<Any> {
+        val sessionId = RequestContextHolder.currentRequestAttributes().sessionId
+        return ResponseEntity.ok(sessionId)
     }
 }

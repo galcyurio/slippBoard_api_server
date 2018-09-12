@@ -11,8 +11,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 class ErrorControllerAdvice : ResponseEntityExceptionHandler() {
 
-    @ExceptionHandler(AlreadyExistsEmailException::class)
-    fun handleAlreadyExistsEmailException(e: AlreadyExistsEmailException): ResponseEntity<Any> {
+    @ExceptionHandler(RuntimeException::class)
+    fun handleRuntimeException(e: RuntimeException): ResponseEntity<Any> {
         return ResponseEntity.badRequest()
             .body(mapOf("message" to e.message))
     }

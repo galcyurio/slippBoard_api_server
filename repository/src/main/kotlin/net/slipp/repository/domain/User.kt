@@ -13,7 +13,7 @@ data class User(
     private val username: String,
     private val password: String,
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private val authorities: Collection<SimpleGrantedAuthority>
 ) : UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
