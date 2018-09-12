@@ -31,4 +31,8 @@ class UserService(
             throw AlreadyExistsEmailException("존재하는 email 입니다.")
         }
     }
+
+    fun signOff(user: User) {
+        userRepository.delete(user)
+    }
 }
