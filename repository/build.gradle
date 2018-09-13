@@ -2,5 +2,5 @@ dependencies {
     compile deps.kotlin.stdlib, deps.kotlin.jackson
     compile deps.spring.jpa, deps.spring.security
 
-    testCompile deps.spring.test
+    testCompile deps.spring.test, deps.h2db
 }
