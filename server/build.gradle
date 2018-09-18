@@ -4,5 +4,5 @@ dependencies {
     compile deps.spring.jpa, deps.spring.security, deps.spring.web
     compile deps.kotlin.stdlib, deps.kotlin.reflect
     runtime deps.spring.devtools, deps.h2db
-    testCompile deps.spring.test, deps.spring.securityTest
+    testCompile deps.spring.test, deps.spring.securityTest, deps.kotlin.mockito
 }

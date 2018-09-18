@@ -1,8 +1,9 @@
 buildscript {
     ext {
         versions = [
-                kotlin    : '1.2.51',
-                springBoot: '2.0.4.RELEASE'
+                kotlin       : '1.2.51',
+                springBoot   : '2.0.4.RELEASE',
+                mockitoKotlin: '2.0.0-RC2'
         ]
 
         deps = [
@@ -19,6 +20,7 @@ buildscript {
                         stdlib : 'org.jetbrains.kotlin:kotlin-stdlib-jdk8',
                         reflect: 'org.jetbrains.kotlin:kotlin-reflect',
                         jackson: 'com.fasterxml.jackson.module:jackson-module-kotlin',
+                        mockito: "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockitoKotlin",
                 ],
                 h2db  : 'com.h2database:h2',
         ]
