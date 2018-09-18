@@ -18,9 +18,9 @@ class BoardController(
 ) {
 
     @GetMapping
-    fun boards(@RequestParam("page") page: Int = 0,
-               @RequestParam("size") size: Int = 10): Page<Board> {
-        val pageRequest = PageRequest.of(page, size)
+    fun boards(@RequestParam("page") page: Int? = null,
+               @RequestParam("size") size: Int? = null): Page<Board> {
+        val pageRequest = PageRequest.of(page ?: 0, size ?: 10)
         return boardService.findAll(pageRequest)
     }
 
