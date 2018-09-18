@@ -1,8 +1,6 @@
 package net.slipp.repository.domain
 
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedDate
-import java.time.LocalDateTime
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 /**
@@ -12,17 +10,12 @@ import javax.persistence.*
 data class Board(
     val title: String,
     val content: String = ""
-) {
+) : Auditable() {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    lateinit var user: User
-
-    @CreatedDate
-    lateinit var createdDate: LocalDateTime
-
-    @LastModifiedDate
-    lateinit var lastModifiedDate: LocalDateTime
+    @JsonIgnore
+    var user: User? = null
 }

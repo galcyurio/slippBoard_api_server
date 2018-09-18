@@ -1,7 +1,6 @@
 package net.slipp.repository
 
 import net.slipp.repository.domain.Board
-import net.slipp.repository.domain.BoardRepository
 import net.slipp.repository.domain.User
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
