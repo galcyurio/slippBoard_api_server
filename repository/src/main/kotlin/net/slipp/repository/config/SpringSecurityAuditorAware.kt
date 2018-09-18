@@ -9,7 +9,7 @@ import java.util.*
 @Configuration
 class SpringSecurityAuditorAware : AuditorAware<String> {
     override fun getCurrentAuditor(): Optional<String> {
-        val user = SecurityContextHolder.getContext().authentication.principal as User
-        return Optional.ofNullable(user.username)
+        val user = SecurityContextHolder.getContext().authentication?.principal as? User
+        return Optional.ofNullable(user?.username)
     }
 }
