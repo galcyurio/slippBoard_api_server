@@ -1,3 +1,23 @@
+apply plugin: 'org.asciidoctor.convert'
+
+def snippetsDir = file('build/generated-snippets')
+
+test {
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+bootJar {
+    dependsOn asciidoctor
+    from("${asciidoctor.outputDir}/html5") {
+        into 'static/docs'
+    }
+}
+
 dependencies {
     compile project(':repository')
 
@@ -5,4 +25,7 @@ dependencies {
     compile deps.kotlin.stdlib, deps.kotlin.reflect
     runtime deps.spring.devtools, deps.h2db
     testCompile deps.spring.test, deps.spring.securityTest, deps.kotlin.mockito
+
+    asciidoctor deps.spring.restdocsAsciidoctor
+    testCompile deps.spring.restdocsMockmvc
 }

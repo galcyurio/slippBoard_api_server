@@ -3,18 +3,22 @@ buildscript {
         versions = [
                 kotlin       : '1.2.51',
                 springBoot   : '2.0.4.RELEASE',
-                mockitoKotlin: '2.0.0-RC2'
+                mockitoKotlin: '2.0.0-RC2',
+                asciidoctor  : '1.5.3',
         ]
 
         deps = [
                 spring: [
-                        jpa         : 'org.springframework.boot:spring-boot-starter-data-jpa',
-                        security    : 'org.springframework.boot:spring-boot-starter-security',
-                        web         : 'org.springframework.boot:spring-boot-starter-web',
+                        jpa                : 'org.springframework.boot:spring-boot-starter-data-jpa',
+                        security           : 'org.springframework.boot:spring-boot-starter-security',
+                        web                : 'org.springframework.boot:spring-boot-starter-web',
 
-                        devtools    : 'org.springframework.boot:spring-boot-devtools',
-                        test        : 'org.springframework.boot:spring-boot-starter-test',
-                        securityTest: 'org.springframework.security:spring-security-test',
+                        devtools           : 'org.springframework.boot:spring-boot-devtools',
+                        test               : 'org.springframework.boot:spring-boot-starter-test',
+                        securityTest       : 'org.springframework.security:spring-security-test',
+
+                        restdocsAsciidoctor: 'org.springframework.restdocs:spring-restdocs-asciidoctor',
+                        restdocsMockmvc    : 'org.springframework.restdocs:spring-restdocs-mockmvc'
                 ],
                 kotlin: [
                         stdlib : 'org.jetbrains.kotlin:kotlin-stdlib-jdk8',
@@ -27,12 +31,14 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$versions.springBoot"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$versions.kotlin"
         classpath "org.jetbrains.kotlin:kotlin-noarg:$versions.kotlin"
+        classpath "org.asciidoctor:asciidoctor-gradle-plugin:$versions.asciidoctor"
     }
 }
 
@@ -42,6 +48,7 @@ subprojects {
 
     repositories {
         mavenCentral()
+        jcenter()
     }
 }
 
@@ -53,7 +60,6 @@ configure([
     apply plugin: 'kotlin-spring'
     apply plugin: 'kotlin-jpa'
     apply plugin: 'eclipse'
-    apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
 
     sourceCompatibility = 1.8
@@ -70,4 +76,14 @@ configure([
             jvmTarget = "1.8"
         }
     }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:$versions.springBoot"
+        }
+    }
+}
+
+configure(subprojects.find { it.name.contains('server') }) {
+    apply plugin: 'org.springframework.boot'
 }

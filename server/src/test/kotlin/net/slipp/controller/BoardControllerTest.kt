@@ -5,6 +5,7 @@ import net.slipp.repository.domain.Board
 import net.slipp.service.BoardService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.InjectMocks
@@ -14,12 +15,16 @@ import org.mockito.Spy
 import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.data.domain.Pageable
 import org.springframework.http.MediaType
+import org.springframework.restdocs.JUnitRestDocumentation
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
+import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
 import java.util.*
 
 /**
@@ -27,6 +32,7 @@ import java.util.*
  */
 @RunWith(MockitoJUnitRunner::class)
 class BoardControllerTest {
+    @get:Rule val restDocumentation = JUnitRestDocumentation()
 
     private lateinit var mockMvc: MockMvc
     @Mock private lateinit var boardService: BoardService
@@ -41,13 +47,16 @@ class BoardControllerTest {
 
     @Before
     fun setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(boardController).build()
+        mockMvc = MockMvcBuilders.standaloneSetup(boardController)
+            .apply<StandaloneMockMvcBuilder>(documentationConfiguration(restDocumentation))
+            .build()
     }
 
     @Test
     fun `GET boards`() {
         mockMvc.perform(get("/boards"))
             .andDo(print())
+            .andDo(document("boards-GET"))
             .andExpect(status().isOk)
 
         verify(boardController).boards()
@@ -63,6 +72,7 @@ class BoardControllerTest {
                 .param("page", page.toString())
                 .param("size", size.toString()))
             .andDo(print())
+            .andDo(document("boards-GET-pageable"))
             .andExpect(status().isOk)
 
         verify(boardController).boards(page, size)
@@ -82,6 +92,7 @@ class BoardControllerTest {
 
         mockMvc.perform(get("/boards/$id"))
             .andDo(print())
+            .andDo(document("boards-id-GET-not-found"))
             .andExpect(status().isNotFound)
 
         verify(boardController).board(id)
@@ -96,6 +107,7 @@ class BoardControllerTest {
 
         mockMvc.perform(get("/boards/$id"))
             .andDo(print())
+            .andDo(document("boards-id-GET-http-ok"))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$.title").value(board.title))
             .andExpect(jsonPath("$.content").value(board.content))
@@ -116,6 +128,7 @@ class BoardControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(boardJson))
             .andDo(print())
+            .andDo(document("boards-POST"))
             .andExpect(status().isCreated)
             .andReturn()
         val location = mvcResult.response.getHeader("Location")
@@ -136,6 +149,7 @@ class BoardControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(boardJson))
             .andDo(print())
+            .andDo(document("boards-PUT"))
             .andExpect(status().isOk)
 
         verify(boardController).update(eq(id), any())
@@ -148,6 +162,7 @@ class BoardControllerTest {
 
         mockMvc.perform(delete("/boards/$id"))
             .andDo(print())
+            .andDo(document("boards-DELETE"))
             .andExpect(status().isOk)
 
         verify(boardController).deleteById(id)
